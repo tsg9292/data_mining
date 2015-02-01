@@ -11,8 +11,9 @@ ACCESS_TOKEN_URL = "https://api.twitter.com/oauth/access_token"
 CONSUMER_KEY = "FvHpVtiweeZ1Db4Q89AtXYmHE"
 CONSUMER_SECRET = "vMZ0Ek28yv3jcnjVh4GDwMvAwPbyuT0VsA5qJNAYxDzP8iirnX"
 
-OAUTH_TOKEN = ""
-OAUTH_TOKEN_SECRET = ""
+# have to generate before using.  Remove before uploading to github
+OAUTH_TOKEN = "156509990-2OENzM4s6crQlUI9V6geS54tGEN0pEQVQ7Pvb2Xr"
+OAUTH_TOKEN_SECRET = "szk6SWcmyRSSW5ECQRKyFyFkERj62cU1WRdydPSdMP8EU"
 
 
 def setup_oauth():
@@ -51,7 +52,7 @@ def get_oauth():
 				   resource_owner_secret=OAUTH_TOKEN_SECRET)
 	return oauth
 
-if __name__ == "__main__":
+def main():
 	if not OAUTH_TOKEN:
 		token, secret = setup_oauth()
 		print "OAUTH_TOKEN: "+token
@@ -59,10 +60,12 @@ if __name__ == "__main__":
 		print
 	else:
 		oauth = get_oauth()
-		r = requests.get(url="https://api.twitter.com/1.1/statuses/user_timeline.json?count=1", auth=oauth)
-		result=str(r.json())
-		result = json.dumps(result,indent=1)
+		r = requests.get(url="https://api.twitter.com/1.1/statuses/user_timeline.json?count=1", auth=oauth).json()
+		print r
 		f = open('results.json', 'w')
-		f.write(result)
+		f.write(str(r))
 		f.close()
 		sys.exit(0)
+
+if __name__ == "__main__":
+	main()
