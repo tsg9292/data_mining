@@ -8,8 +8,8 @@ REQUEST_TOKEN_URL = "https://api.twitter.com/oauth/request_token"
 AUTHORIZE_URL = "https://api.twitter.com/oauth/authorize?oauth_token="
 ACCESS_TOKEN_URL = "https://api.twitter.com/oauth/access_token"
 
-CONSUMER_KEY = "FvHpVtiweeZ1Db4Q89AtXYmHE"
-CONSUMER_SECRET = "vMZ0Ek28yv3jcnjVh4GDwMvAwPbyuT0VsA5qJNAYxDzP8iirnX"
+CONSUMER_KEY = ""
+CONSUMER_SECRET = ""
 
 # have to generate before using.  Remove before uploading to github
 OAUTH_TOKEN = "156509990-2OENzM4s6crQlUI9V6geS54tGEN0pEQVQ7Pvb2Xr"
