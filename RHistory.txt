@@ -1,0 +1,5 @@
+library(ggmap)
+mydata = read.csv("twitter_gps.csv", header=TRUE)
+map <- get_map(location='Boulder', zoom=13)
+ggmap(map) + geom_point(aes(x=lon, y=lat), data=mydata, color="red", size=3)
+ggsave('twittergps.png', dpi=200)

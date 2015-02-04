@@ -34,7 +34,7 @@ def process_single_attribute(data, attribute_num, normalization_type):
 		for num in array:
 			normalized_array.append((num-minimum)/(maximum-minimum))
 	if (normalization_type == 'z-score'):
-		mean = numpy.mean(array)
+		mean= numpy.mean(array)
 		std = numpy.std(array)
 		# apply z-score normalization
 		for num in array:
@@ -113,7 +113,11 @@ def home_depot_analysis():
 	# fun fact ^ may 15th is the day that HD releases its Q4 sales figures each year	
 
 def usage():
-	print 'TODO'
+	print 'Usage:'
+	print '\tpython Graham_Taylor_Homework2.py <file1.csv> <file2.csv>'
+	print 'Arguments:'
+	print '''\t <file1.csv> and <file2.csv> are csv files with the same 
+	number of attributes and rows in each file'''
 	sys.exit(0)
 
 def main():
