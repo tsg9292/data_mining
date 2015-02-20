@@ -1,0 +1,112 @@
+
+\documentclass[12pt]{article}
+
+%------------------------Dimensions----------------------------
+
+\topmargin=1.0in
+\oddsidemargin=0.0in           % 1in margins at left and right
+\evensidemargin=0in
+\textwidth=6.5in               % US paper is 8.5in widet
+\marginparwidth=0.5in
+
+\headheight=0pt                % 1in margins at top and bottom
+\headsep=0pt
+\topmargin=0in
+\textheight=9.0in              % US paper is 11.0in high
+
+%adjustments...
+\addtolength{\topmargin}{0.0in}
+\addtolength{\textheight}{0.0in}
+%\addtolength{\textwidth}{1.0in}
+% \addtolength{\oddsidemargin}{-0.5in}
+% \addtolength{\evensidemargin}{-0.5in}
+            
+%\renewcommand{\baselinestretch}{-.05}
+ 
+
+%more preamble stuffs
+\usepackage{graphicx}           
+%\pagestyle{empty}             % don't put page numbers at the bottom
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\usepackage{indentfirst} 
+\usepackage{amsmath}
+
+\usepackage{float}
+\floatstyle{boxed}
+\restylefloat{figure}
+
+%\usepackage{csvsimple}
+
+
+
+
+%------------------------Commands----------------------------
+            
+\newcommand{\ds}{\displaystyle}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+
+             
+%*********************************************************************
+
+\begin{document}
+
+
+
+\title{Homework \#3: Association Rules}
+\author{Taylor Graham 
+\\ CSCI 4502: Data Mining}
+\date{February 10, 2015}
+
+\maketitle
+
+%\newpage
+\begin{center}
+Honor Code Pledge: On my honor, as a University of Colorado at Boulder student,\\
+I have neither given nor received unauthorized assistance on this work.
+\end{center}
+
+\begin{enumerate}
+
+\item[1a)] $lift(ski \Rightarrow football)$ is the same as $\frac{supp(ski \Rightarrow football)}{supp(ski)*supp(football)}$.  Note:
+\begin{align*}	
+	supp(ski \Rightarrow football) &= 0.375\\
+	supp(ski) &= 0.625\\
+	supp(football) &= 0.5\\
+	lift(ski \Rightarrow football) = \frac{0.375}{0.625*0.5} &= 1.2
+\end{align*}
+
+\item[1b)] As stated earlier, $supp(ski \Rightarrow football) = 0.375)$.  $conf(ski \Rightarrow football)$ is the ratio of the number of people that participate in both skiing and football, to the number of people who ski in general.
+	$$conf(ski \Rightarrow football) = \frac{\| ski \bigcap football \|}{\| ski \|} = \frac{1500}{2500} = 0.6$$
+Using $min\_supp=0.25$ and $min\_conf=0.5$, we can conclude:
+$$supp(ski \Rightarrow football)>min\_supp$$ $$conf(ski \Rightarrow football)>min\_conf$$
+Therefore the association rule can be considered strong.
+
+\item[2a)] In this problem, for an itemset to be considered frequent, it must be in at least 3 out of 5 transactions.  I know that there are only 6 frequent 1-item itemsets: ${B,E,G,I,N,Z}$.  Because of this, I conclude that there are $2^6 - 2 = 62$ possible frequent itemsets.  The reason for the $-2$ is because you ignore the empty set, and the set of all 6 letters, as 5 is the maximum set size.
+
+\item[2b)] There are 11 frequent itemsets: ${B,E,G,I,N,Z,BI,BN,GZ,IN,BIN}$.  Here are the steps I followed to get my results:\\
+	\begin{enumerate}
+	\item Find all the frequent 1-item itemsets: ${B,E,G,I,N,Z}$. Any superset without any of these letters gets pruned.\\
+	\item Find all of the 2-item itemsets that are frequent: ${BI,BN,GZ,IN}$.  Again, any superset without one of these itemsets is then pruned.
+	\item From the remaining 3-item itemsets, evaluate which are considered frequent sets.  The only one I found is ${BIN}$.  Every superset without ${BIN}$ gets pruned.
+	\item There are only three 3-item itemsets remaining: ${BEIN,BGIN,BINZ}$.  Unfortunately, none of these are frequent.  All remaining 5-item itemsets get pruned, and were done! 
+	\end{enumerate}
+	
+\item[2c)] There were four rounds of DB scan done, with 31 total candidates tested.
+
+\item[2d)] The 1st approach runs in $O(b)$ time, as each transaction will have $b$ items to check.  The 2nd approach runs in $O(m)$ time, because with each transactions, it checks $m$ potential candidates.  Eventually in the Apriori algorithm, the $m$ value will be less than the $b$ value, and at that point, the 2nd approach will run faster.  The correlation between $m$ and $b$ depends mainly on how large $b$ is.
+
+\item[3a)] I found that the largest $k$ value for my frequent k-valued itemsets is $k=3$.  This appears in both the ${Milk, Pie, Bread}$ itemset as well as the ${Milk, Cheese, Break}$ itemset.  One example of this is \\
+$buys(Milk) \bigcap buys(Pie) \Rightarrow buys(Bread)$  $[0.75,1]$ or\\
+$buys(Bread) \bigcap buys(Cheese) \Rightarrow buys(Milk)$  $[0.75,1]$\\
+I'm actually a bit curious about this result. Since Milk and Bread were included in every item set, it seems like they could be skewing the confidence value a bit.  I can't say whether or not buying pie or buying cheese implies more that you're going to buy milk. Could we treat items in every set just like items in none of the sets when calculating association rules?
+
+\item[3b)] These new restrictions just increase the number of values that the data can take, which in general just reduces the frequency of a particular data value.  Because of this, the Apriori pruning happens very quickly.  I found that the frequent-k itemset with the largest $k$ value is actually ${(WonderBread,SweetPie)}$ with a $k$ value of $k=2$
+
+
+\end{enumerate}
+
+\end{document}
+

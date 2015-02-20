@@ -12,8 +12,8 @@ CONSUMER_KEY = "FvHpVtiweeZ1Db4Q89AtXYmHE"
 CONSUMER_SECRET = "vMZ0Ek28yv3jcnjVh4GDwMvAwPbyuT0VsA5qJNAYxDzP8iirnX"
 
 # have to generate before using.  Remove before uploading to github
-OAUTH_TOKEN = ""
-OAUTH_TOKEN_SECRET = ""
+OAUTH_TOKEN = "156509990-2OENzM4s6crQlUI9V6geS54tGEN0pEQVQ7Pvb2Xr"
+OAUTH_TOKEN_SECRET = "szk6SWcmyRSSW5ECQRKyFyFkERj62cU1WRdydPSdMP8EU"
 
 
 def setup_oauth():
@@ -54,44 +54,15 @@ def get_oauth():
 				   resource_owner_secret=OAUTH_TOKEN_SECRET)
 	return oauth
 
-def get_hashtags(json_obj):
-	for tag in json_obj['entities']['hashtags']:
-		print tag['text']
-
-def get_gps_coords(json_obj):
-	if json_obj['geo']:
-		lat, lon = json_obj['geo']['coordinates']
-		return (lat, lon)
-	else:
-		print 'geo tagging not enabled'
-		return (None, None)
-
 def home_timeline_request():
-	oauth = get_oauth()
-	r = requests.get(url="https://api.twitter.com/1.1/statuses/home_timeline.json?count=200", auth=oauth).json()
+	url="https://api.twitter.com/1.1/statuses/home_timeline.json?count=200"
+	return search_request(url)
 
-	return r
-
-def search_request():
-	oauth = get_oauth()
-	request_url="https://api.twitter.com/1.1/search/tweets.json?q=place%3Afd70c22040963ac7&count=200"
-	print request_url
-	r = requests.get(url=request_url, auth=oauth).json()
-
-	return r
-
-def main():
+def search_request(request_url):
 	if not OAUTH_TOKEN:
 		setup_oauth()
 	else:
-		json_obj = search_request()
-		f = open('twitter_gps.csv', 'w')
-		for obj in json_obj['statuses']:
-			lat, lon = get_gps_coords(obj)
-			string = '{0},{1}\n'.format(lat, lon)
-			f.write(string)
-		
-		f.close()
+		oauth = get_oauth()
+		r = requests.get(url=request_url, auth=oauth).json()
 
-if __name__ == "__main__":
-	main()
+	return r

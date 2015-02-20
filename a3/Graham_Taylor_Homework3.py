@@ -33,7 +33,7 @@ def add_frequent_combinations(letters, num, data):
 	frequent_sets=[]
 	new_combinations=list(itertools.combinations(letters, num))
 	for item in new_combinations:
-		if (supp(item,data) > 2):
+		if (supp(item,data) >= 0):
 			frequent_sets.append(item)
 	return frequent_sets
 
@@ -46,10 +46,10 @@ def main():
 			frequent_letters.append(letter)
 	frequent_sets=list(frequent_letters)
 
-	frequent_sets=frequent_sets+add_frequent_combinations(frequent_letters, 2, data)
-	frequent_sets=frequent_sets+add_frequent_combinations(frequent_letters, 3, data)
+	#frequent_sets=frequent_sets+add_frequent_combinations(frequent_letters, 2, data)
+	#frequent_sets=frequent_sets+add_frequent_combinations(frequent_letters, 3, data)
 	frequent_sets=frequent_sets+add_frequent_combinations(frequent_letters, 4, data)
-	frequent_sets=frequent_sets+add_frequent_combinations(frequent_letters, 5, data)
+	#frequent_sets=frequent_sets+add_frequent_combinations(frequent_letters, 5, data)
 
 	print frequent_sets
 
